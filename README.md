@@ -43,7 +43,7 @@ Avant de commencer, assurez-vous que les éléments suivants sont installés :
 ## Structure du Projet
 
 Le projet est organisé de manière modulaire pour faciliter sa maintenance et son extension.
-## Structure du Projet
+
 
 | Fichier              | Description                                                                                   |
 |----------------------|-----------------------------------------------------------------------------------------------|
@@ -67,7 +67,7 @@ Le projet est organisé de manière modulaire pour faciliter sa maintenance et s
 ]
 ```
 
-## capture d'écran
+## Capture d'écran
 
 ![Capture d'écran du site WordPress](./images/Capture-images.jpg)
 
@@ -92,4 +92,4 @@ Les contributions sont les bienvenues ! Pour contribuer, suivez les étapes suiv
 ```
 
 ## Auteur
- &copy;2024 BREROOT
+ &copy; 2024 BREROOT
