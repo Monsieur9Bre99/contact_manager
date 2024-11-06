@@ -43,18 +43,18 @@ Avant de commencer, assurez-vous que les éléments suivants sont installés :
 ## Structure du Projet
 
 Le projet est organisé de manière modulaire pour faciliter sa maintenance et son extension.
+## Structure du Projet
 
-```plaintext
-contact_manager/
-├── main.py               # Lance l'interface graphique de l'application
-├── contact_gui.py        # Contient la classe ContactGui qui gère l'interface graphique
-├── contact_manager.py    # Contient les fonctions pour gérer les contacts (ajout, recherche, modification, suppression, liste)
-└── contacts.json         # Fichier JSON où les contacts sont stockés
-```
+| Fichier              | Description                                                                                   |
+|----------------------|-----------------------------------------------------------------------------------------------|
+| `main.py`            | Lance l'interface graphique de l'application                                                  |
+| `contact_gui.py`     | Contient la classe `ContactGui` qui gère l'interface graphique                                |
+| `contact_manager.py` | Contient les fonctions pour gérer les contacts (ajout, recherche, modification, suppression, liste) |
+| `contacts.json`      | Fichier JSON où les contacts sont stockés                                                     |
 
 ## Exemple du fichier contacts.json 
 
-    ```JSON
+```bash
 [
     {
         "name": "Jones",
@@ -66,9 +66,10 @@ contact_manager/
     }
 ]
 ```
-### capture d'écran
 
-![Capture d'écran du site WordPress](./image.jpg)
+## capture d'écran
+
+![Capture d'écran du site WordPress](./images/Capture-images.jpg)
 
 
 ## Contributions 
@@ -90,5 +91,5 @@ Les contributions sont les bienvenues ! Pour contribuer, suivez les étapes suiv
     git push origin feature/nom-de-la-fonctionnalité
 ```
 
-## Auteurs
+## Auteur
  &copy;2024 BREROOT
