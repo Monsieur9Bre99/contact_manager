@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import messagebox, simpledialog
 import webbrowser
 import contact_manager
+import requests
+from PIL import Image, ImageTk
+import io
 
 class ContactGui(tk.Frame):
     def __init__(self, master=None):
@@ -9,6 +12,7 @@ class ContactGui(tk.Frame):
         self.master = master
         self.master.title('Gestion des contacts')
         self.master.geometry('600x600')
+        self.master.configure(bg="#BDE3F0")
         self.master.resizable(False, False)
         self.pack()
         self.create_widgets()
@@ -17,13 +21,30 @@ class ContactGui(tk.Frame):
         # Canvas pour le fond d'écran
         self.canvas = tk.Canvas(self, width=600, height=600)
         self.canvas.pack(fill="both", expand=True)
-        
-        # Ajouter une image de fond (remplacez 'background.png' par le chemin de votre image)
-        # self.background_image = tk.PhotoImage(file='background.png')
-        # self.canvas.create_image(0, 0, anchor="nw", image=self.background_image)
+        try:
+            # Télécharger l'image de fond depuis une URL
+            image_url = "https://themarketive.com/wp-content/uploads/2017/04/contact-background-1.jpg"  # URL de l'image
+            # image_url = "./images/background.png"  # URL de l'image
+            response = requests.get(image_url)
+            response.raise_for_status()  # Vérifie si la requête est réussie
+
+            # Charger l'image
+            image_data = response.content
+            image = Image.open(io.BytesIO(image_data))
+            self.background_image = ImageTk.PhotoImage(image)
+            self.canvas.create_image(0, 0, anchor="nw", image=self.background_image)
+            
+        except requests.exceptions.RequestException as e:
+            print(f"Erreur lors du téléchargement de l'image : {e}")
+            messagebox.showerror("Erreur", "Impossible de télécharger l'image de fond.")
+            self.canvas.config(bg="white")
+        except (IOError, Image.UnidentifiedImageError) as e:
+            print(f"Erreur lors de l'ouverture de l'image : {e}")
+            messagebox.showerror("Erreur", "Le fichier téléchargé n'est pas une image valide.")
+            self.canvas.config(bg="white")
 
         # Titre du projet
-        self.title_label = tk.Label(self.canvas, text="Gestion des contacts", font=("Helvetica", 16))
+        self.title_label = tk.Label(self.canvas, text="Gestion des contacts", font=("Helvetica", 16), bg="white")
         self.title_label.pack(pady=10)
 
         # Barre de recherche
@@ -66,14 +87,14 @@ class ContactGui(tk.Frame):
         self.footer_frame = tk.Frame(self.canvas, bg="white")
         self.footer_frame.pack(side="bottom", fill="x", pady=10)
 
-        self.github_button = tk.Button(self.footer_frame, text="GitHub", command=lambda: self.open_link("https://github.com/yourusername"))
-        self.github_button.pack(side="left", padx=10)
+        self.github_button = tk.Button(self.footer_frame, text="GitHub", command=lambda: self.open_link("https://github.com/Monsieur9Bre99/"))
+        self.github_button.pack(side="left", padx=40)
 
-        self.codepen_button = tk.Button(self.footer_frame, text="CodePen", command=lambda: self.open_link("https://codepen.io/yourusername"))
+        self.codepen_button = tk.Button(self.footer_frame, text="CodePen", command=lambda: self.open_link("https://codepen.io/Monsieur9Bre99/"))
         self.codepen_button.pack(side="left", padx=10)
 
-        self.linkedin_button = tk.Button(self.footer_frame, text="LinkedIn", command=lambda: self.open_link("https://linkedin.com/in/yourusername"))
-        self.linkedin_button.pack(side="left", padx=10)
+        self.linkedin_button = tk.Button(self.footer_frame, text="LinkedIn", command=lambda: self.open_link("https://linkedin.com/in/Monsieur9Bre99/"))
+        self.linkedin_button.pack(side="right", padx=40)
 
     def open_link(self, url):
         webbrowser.open_new(url)
@@ -104,14 +125,17 @@ class ContactGui(tk.Frame):
     def update_contact(self):
         name = simpledialog.askstring('Modifier un contact', 'Nom:')
         if name:
-            phone = simpledialog.askstring('Modifier un contact', 'Nouveau téléphone:')
-            if contact_manager.validate_contact(name, phone):
-                contact_manager.update_contact(name, phone)
-                self.list_contacts()
-                messagebox.showinfo('Success', f"Le contact '{name}' a été mis à jour avec succès")
+            contact = contact_manager.search_contact(name)
+            if contact:
+                phone = simpledialog.askstring('Modifier un contact', 'Nouveau téléphone:')
+                if contact_manager.validate_contact(name, phone):
+                    contact_manager.update_contact(name, phone)
+                    self.list_contacts()
+                    messagebox.showinfo('Success', f"Le contact '{name}' a été mis à jour avec succès")
+                else:
+                    messagebox.showerror('Erreur', 'Veuillez entrer un nom et un numéro de téléphone valides')
             else:
-                messagebox.showerror('Erreur', 'Veuillez entrer un nom et un numéro de téléphone valides')
-
+                messagebox.showerror('Erreur', 'Contact non trouvé')
     def delete_contact(self):
         name = simpledialog.askstring('Supprimer un contact', 'Nom:')
         if name:
