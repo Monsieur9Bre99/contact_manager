@@ -97,4 +97,9 @@
 
 ---
 
+## Illustration
+![Capture d'écran](https://imgur.com/KyLV8fx.png)
+
+
+
 Ce diagramme textuel représente les classes principales et leurs relations pour un système de gestion de restaurant. Il inclut les attributs, les méthodes clés et les associations entre les classes.
